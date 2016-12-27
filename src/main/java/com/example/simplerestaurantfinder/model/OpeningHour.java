@@ -20,14 +20,13 @@ public class OpeningHour implements Serializable {
     @Column(name = "OpeningHourId" )
     private long id;
 
-    @Column(name = "StartTime", columnDefinition="TIME")
+    @Column(name = "StartTime", columnDefinition="TIME" , nullable = false)
     private Time startTime;
 
-    @Column(name = "EndTime", columnDefinition="TIME")
+    @Column(name = "EndTime", columnDefinition="TIME" , nullable = false)
     private Time endTime;
 
-
-    @Column(name = "CreatedDate", columnDefinition="DATETIME")
+    @Column(name = "CreatedDate", columnDefinition="DATETIME" , nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
@@ -36,7 +35,7 @@ public class OpeningHour implements Serializable {
     private Date updatedDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "OpeningDayId")
+    @JoinColumn(name = "OpeningDayId" ,  nullable = false)
     @JsonBackReference
     private OpeningDay openingDay;
 

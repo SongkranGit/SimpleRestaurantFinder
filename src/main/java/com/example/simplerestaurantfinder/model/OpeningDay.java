@@ -28,7 +28,7 @@ public class OpeningDay implements Serializable {
     @Column(name = "IsOpen" , nullable = false)
     private Boolean  isOpen;
 
-    @Column(name = "CreatedDate", columnDefinition="DATETIME")
+    @Column(name = "CreatedDate", columnDefinition="DATETIME" , nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
@@ -37,7 +37,7 @@ public class OpeningDay implements Serializable {
     private Date updatedDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "RestaurantId")
+    @JoinColumn(name = "RestaurantId" ,  nullable = false)
     @JsonBackReference
     private Restaurant restaurant;
 

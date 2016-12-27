@@ -7,6 +7,8 @@ import com.example.simplerestaurantfinder.model.OpeningHour;
 import com.example.simplerestaurantfinder.service.OpeningDayService;
 import com.example.simplerestaurantfinder.service.OpeningHourService;
 import com.example.simplerestaurantfinder.utils.DateTimeUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -46,6 +48,11 @@ public class OpeningHourController {
      */
     @RequestMapping(value = "/createOpeningHour", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Add new OpeningHour")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "openingDayId", value = "identify of OpeningDay", required = true, dataType = "long", paramType = "query" ),
+            @ApiImplicitParam(name = "startTime", value = "Time(HH:mm)", required = true, dataType = "date-time", paramType = "query", defaultValue="09:30"),
+            @ApiImplicitParam(name = "endTime", value = "Time(HH:mm)", required = true, dataType = "date-time", paramType = "query", defaultValue="10:30")
+    })
     public ApiResponseBean createOpeningHour(
             @RequestParam(name = "openingDayId", required = true) long openingDayId,
             @RequestParam(name = "startTime", required = true ) @DateTimeFormat(pattern="HH:mm") DateTime startTime,
@@ -54,14 +61,19 @@ public class OpeningHourController {
         ApiResponseBean response = new ApiResponseBean();
         try {
             OpeningDay openingDay = openingDayService.getById(openingDayId);
-            OpeningHour openingHour = new OpeningHour();
-            openingHour.setStartTime(DateTimeUtil.convertDateTimeToSqlTime(startTime));
-            openingHour.setEndTime(DateTimeUtil.convertDateTimeToSqlTime(endTime));
-            openingHour.setOpeningDay(openingDay);
-            openingHour.setCreatedDate(DateTime.now().toDate());
-            openingHourService.saveOpeningHour(openingHour);
-            response.setStatus("success");
-            response.setMessage("Your data has been successfully saved");
+            if(openingDay != null){
+                OpeningHour openingHour = new OpeningHour();
+                openingHour.setStartTime(DateTimeUtil.convertDateTimeToSqlTime(startTime));
+                openingHour.setEndTime(DateTimeUtil.convertDateTimeToSqlTime(endTime));
+                openingHour.setOpeningDay(openingDay);
+                openingHour.setCreatedDate(DateTime.now().toDate());
+                openingHourService.saveOpeningHour(openingHour);
+                response.setStatus("success");
+                response.setMessage("Your data has been successfully saved");
+            }else{
+                response.setStatus("failed");
+                response.setMessage("OpeningDay id :: " + openingDayId + " is not found");
+            }
         } catch (Exception e) {
             response.setStatus("failed");
             response.setMessage(e.getMessage());
@@ -87,13 +99,19 @@ public class OpeningHourController {
         ApiResponseBean response = new ApiResponseBean();
         try {
             OpeningHour openingHour = openingHourService.getById(openingHourId);
-            openingHour.setUpdatedDate(DateTime.now().toDate());
-            if (startTime != null) openingHour.setStartTime(startTime);
-            if (endTime != null) openingHour.setEndTime(endTime);
+            if(openingHour != null){
+                openingHour.setUpdatedDate(DateTime.now().toDate());
+                if (startTime != null) openingHour.setStartTime(startTime);
+                if (endTime != null) openingHour.setEndTime(endTime);
 
-            openingHourService.updateOpeningHour(openingHour);
-            response.setStatus("success");
-            response.setMessage("Your data has been successfully saved");
+                openingHourService.updateOpeningHour(openingHour);
+                response.setStatus("success");
+                response.setMessage("Your data has been successfully saved");
+            }else{
+                response.setStatus("failed");
+                response.setMessage("openingHour id :: " + openingHourId + " is not found");
+            }
+
         } catch (Exception e) {
             response.setStatus("failed");
             response.setMessage(e.getMessage());
@@ -110,7 +128,7 @@ public class OpeningHourController {
     @RequestMapping(value = "/deleteOpeningHour", method = RequestMethod.DELETE)
     @ApiOperation(value = "Delete OpeningHour")
     public ApiResponseBean deleteOpeningHour(
-            @RequestParam(value = "openingHourId", required = true) long openingHourId
+            @RequestParam(name = "openingHourId", required = true) long openingHourId
     ) {
         ApiResponseBean response = new ApiResponseBean();
         try {

@@ -38,7 +38,7 @@ public class Restaurant  implements Serializable {
     @JsonIgnore
     private Point location;
 
-    @Column(name = "CreatedDate", columnDefinition="DATETIME")
+    @Column(name = "CreatedDate", columnDefinition="DATETIME" , nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
