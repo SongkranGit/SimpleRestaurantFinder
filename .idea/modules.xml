@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SimpleRestaurantFinder.iml" filepath="$PROJECT_DIR$/SimpleRestaurantFinder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimpleRestaurantFinderApp.iml" filepath="$PROJECT_DIR$/SimpleRestaurantFinderApp.iml" />
     </modules>
   </component>
 </project>
