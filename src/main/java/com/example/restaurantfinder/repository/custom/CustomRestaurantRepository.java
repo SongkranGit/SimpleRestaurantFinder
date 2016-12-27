@@ -11,8 +11,8 @@ import java.util.List;
 /**
  * Created by BERM-PC on 27/12/2559.
  */
-public interface CustomRestaurantRepository extends RestaurantRepository , SolrCrudRepository<Restaurant, Long> {
+public interface CustomRestaurantRepository {
 
-     List<Restaurant> findByLocationNear(Point location, Distance distance);
+     List<Restaurant> findRestaurantNearby(Point location, Distance distance);
 
 }
