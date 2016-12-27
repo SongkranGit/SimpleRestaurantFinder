@@ -122,7 +122,7 @@ public class OpeningDayController {
     /** ============================= Get OpeningDay By Id====================================*/
 
     @RequestMapping(value = "/getOpeningDayById", method = RequestMethod.GET)
-    @ApiOperation(value = "Get an OpeningDay by Id ")
+    @ApiOperation(value = "Find an openingDay by Id ")
     @ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = OpeningDay.class),
             @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized"),
