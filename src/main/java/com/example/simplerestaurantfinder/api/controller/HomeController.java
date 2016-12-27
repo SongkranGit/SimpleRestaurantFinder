@@ -13,9 +13,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class HomeController {
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
     @RequestMapping("/")
     @ResponseBody
     public String index() {

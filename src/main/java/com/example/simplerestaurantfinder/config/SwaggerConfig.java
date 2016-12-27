@@ -25,6 +25,7 @@ public class SwaggerConfig  {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.regex("/Api/.*"))
                 .build()
+                .enableUrlTemplating(true)
                 .apiInfo(apiInfo());
     }
 

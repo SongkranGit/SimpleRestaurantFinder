@@ -8,7 +8,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-
 	<name>simple_restaurant_finder</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -38,11 +37,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<!--Tomcat-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<!--<scope>provided</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -62,25 +61,26 @@
 			<version>1.13</version>
 		</dependency>
 
+		<!--MySQL-->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.connector.version}</version>
 		</dependency>
 
+		<!--Hibernate-->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-spatial</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
 
-		<!--Document API with Swagger2-->
+		<!--Start Document API with Swagger2-->
 		<dependency>
 			<groupId>org.jsondoc</groupId>
 			<artifactId>jsondoc-ui-webjar</artifactId>
 			<version>1.2.11</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -97,10 +97,28 @@
 			<version>2.2.2</version>
 			<scope>compile</scope>
 		</dependency>
+		<!--End Document API with Swagger2-->
 
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
+		</dependency>
+
+		<!--Logging-->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jcl</artifactId>
+			<version>2.5</version>
 		</dependency>
 
 	</dependencies>
@@ -115,10 +133,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
-
 	</build>
-
 
 	<repositories>
 		<repository>

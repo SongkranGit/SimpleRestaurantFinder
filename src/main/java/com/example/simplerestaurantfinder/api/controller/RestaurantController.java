@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import org.joda.time.DateTime;
 import org.jsondoc.core.annotation.ApiMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 /**
  * Created by BERM-PC on 22/12/2559.
  */
@@ -29,6 +32,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/Api/Restaurant")
 public class RestaurantController {
+
+    private static  final String TAG = "RestaurantController";
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     RestaurantService restaurantService;
@@ -50,10 +56,10 @@ public class RestaurantController {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = ApiResponseBean.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
     public ResponseEntity<ApiResponseBean> createRestaurant(
-            @RequestParam(value = "name", required = true) String name,
-            @RequestParam(value = "description", required = false) String description,
-            @RequestParam(value = "latitude", required = true) Double latitude,
-            @RequestParam(value = "longitude", required = true) Double longitude
+            @RequestParam(name = "name", required = true) String name,
+            @RequestParam(name = "description", required = false) String description,
+            @RequestParam(name = "latitude", required = true) Double latitude,
+            @RequestParam(name = "longitude", required = true) Double longitude
     ) {
 
         ApiResponseBean response = new ApiResponseBean();
@@ -79,7 +85,7 @@ public class RestaurantController {
         } catch (Exception e) {
             response.setStatus("failed");
             response.setMessage(e.getMessage());
-            e.printStackTrace();
+            logger.error(TAG , e.getMessage());
         }
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -103,11 +109,11 @@ public class RestaurantController {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = ApiResponseBean.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
     public ApiResponseBean updateRestaurant(
-            @RequestParam(value = "restaurantId", required = true) long restaurantId,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "description", required = false) String description,
-            @RequestParam(value = "latitude", required = false) Double latitude,
-            @RequestParam(value = "longitude", required = false) Double longitude
+            @RequestParam(name = "restaurantId", required = true) long restaurantId,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "description", required = false) String description,
+            @RequestParam(name = "latitude", required = false) Double latitude,
+            @RequestParam(name = "longitude", required = false) Double longitude
     ) {
         ApiResponseBean response = new ApiResponseBean();
         try {
@@ -128,7 +134,7 @@ public class RestaurantController {
         } catch (Exception e) {
             response.setStatus("failed");
             response.setMessage(e.getMessage());
-            e.printStackTrace();
+            logger.error(TAG , e.getMessage());
         }
 
         return response;
@@ -145,7 +151,7 @@ public class RestaurantController {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = ApiResponseBean.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
     public ApiResponseBean deleteRestaurant(
-            @RequestParam(value = "restaurantId", required = true) long restaurantId) {
+            @RequestParam(name = "restaurantId", required = true) long restaurantId) {
         ApiResponseBean response = new ApiResponseBean();
         try {
             restaurantService.deleteRestaurant(restaurantId);
@@ -191,7 +197,6 @@ public class RestaurantController {
         Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
         return new ResponseEntity(restaurant, HttpStatus.OK);
     }
-
 
 
     /**

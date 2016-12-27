@@ -6,9 +6,13 @@ import com.example.simplerestaurantfinder.model.OpeningDay;
 import com.example.simplerestaurantfinder.model.OpeningHour;
 import com.example.simplerestaurantfinder.service.OpeningDayService;
 import com.example.simplerestaurantfinder.service.OpeningHourService;
+import com.example.simplerestaurantfinder.utils.DateTimeUtil;
 import io.swagger.annotations.ApiOperation;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Time;
+import java.time.LocalTime;
 
 /**
  * Created by BERM-PC on 25/12/2559.
@@ -24,68 +29,84 @@ import java.sql.Time;
 @RequestMapping("/Api/OpeningHour")
 public class OpeningHourController {
 
+    private static final String TAG = "OpeningHourController";
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     OpeningHourService openingHourService;
 
     @Autowired
     OpeningDayService openingDayService;
 
+    /**
+     * @param openingDayId
+     * @param startTime
+     * @param endTime
+     * @return ApiResponseBean
+     */
     @RequestMapping(value = "/createOpeningHour", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Add new OpeningHour")
     public ApiResponseBean createOpeningHour(
-            @RequestParam(value = "openingDayId" , required = true) long openingDayId,
-            @RequestParam(value = "startTime" , required = true) Time startTime,
-            @RequestParam(value = "endTime" , required = true) Time endTime
+            @RequestParam(name = "openingDayId", required = true) long openingDayId,
+            @RequestParam(name = "startTime", required = true ) @DateTimeFormat(pattern="HH:mm") DateTime startTime,
+            @RequestParam(name = "endTime", required = true ) @DateTimeFormat(pattern="HH:mm") DateTime endTime
     ) {
         ApiResponseBean response = new ApiResponseBean();
         try {
             OpeningDay openingDay = openingDayService.getById(openingDayId);
             OpeningHour openingHour = new OpeningHour();
-            openingHour.setStartTime(startTime);
-            openingHour.setEndTime(endTime);
+            openingHour.setStartTime(DateTimeUtil.convertDateTimeToSqlTime(startTime));
+            openingHour.setEndTime(DateTimeUtil.convertDateTimeToSqlTime(endTime));
             openingHour.setOpeningDay(openingDay);
             openingHour.setCreatedDate(DateTime.now().toDate());
             openingHourService.saveOpeningHour(openingHour);
             response.setStatus("success");
+            response.setMessage("Your data has been successfully saved");
         } catch (Exception e) {
-            e.printStackTrace();
             response.setStatus("failed");
             response.setMessage(e.getMessage());
+            logger.error(TAG, e.getMessage());
         }
 
         return response;
     }
 
+    /**
+     * @param openingHourId
+     * @param startTime
+     * @param endTime
+     * @return ApiResponseBean
+     */
     @RequestMapping(value = "/updateOpeningHour", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update an existing OpeningHour")
     public ApiResponseBean updateOpeningHour(
-            @RequestParam(value = "openingHourId" , required = true) long openingHourId,
-            @RequestParam(value = "startTime" , required = false) Time startTime,
-            @RequestParam(value = "endTime" , required = false) Time endTime
+            @RequestParam(name = "openingHourId", required = true) long openingHourId,
+            @RequestParam(name = "startTime", required = false) Time startTime,
+            @RequestParam(name = "endTime", required = false) Time endTime
     ) {
         ApiResponseBean response = new ApiResponseBean();
         try {
             OpeningHour openingHour = openingHourService.getById(openingHourId);
             openingHour.setUpdatedDate(DateTime.now().toDate());
-            if(startTime != null ){
-                openingHour.setStartTime(startTime);
-            }
-
-            if(endTime != null){
-                openingHour.setEndTime(endTime);
-            }
+            if (startTime != null) openingHour.setStartTime(startTime);
+            if (endTime != null) openingHour.setEndTime(endTime);
 
             openingHourService.updateOpeningHour(openingHour);
             response.setStatus("success");
+            response.setMessage("Your data has been successfully saved");
         } catch (Exception e) {
             response.setStatus("failed");
             response.setMessage(e.getMessage());
-            e.printStackTrace();
+            logger.error(TAG, e.getMessage());
         }
 
         return response;
     }
 
+    /**
+     * @param openingHourId
+     * @return ApiResponseBean
+     */
     @RequestMapping(value = "/deleteOpeningHour", method = RequestMethod.DELETE)
     @ApiOperation(value = "Delete OpeningHour")
     public ApiResponseBean deleteOpeningHour(
@@ -95,10 +116,11 @@ public class OpeningHourController {
         try {
             openingHourService.deleteOpeningHour(openingHourId);
             response.setStatus("success");
+            response.setMessage("Your data has been deleted!");
         } catch (Exception e) {
-            e.printStackTrace();
             response.setStatus("failed");
             response.setMessage(e.getMessage());
+            logger.error(TAG, e.getMessage());
         }
         return response;
     }

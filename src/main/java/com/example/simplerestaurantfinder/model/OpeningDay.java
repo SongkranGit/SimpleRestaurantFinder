@@ -1,5 +1,8 @@
 package com.example.simplerestaurantfinder.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -35,13 +38,13 @@ public class OpeningDay implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "RestaurantId")
-   // @JsonBackReference
+    @JsonBackReference
     private Restaurant restaurant;
 
 
     @OneToMany(mappedBy = "openingDay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(nullable = true)
-    //@JsonManagedReference
+    @JsonManagedReference
     private Set<OpeningHour> openingHours;
 
 
