@@ -180,7 +180,7 @@ public class RestaurantController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantById")
-    @ApiOperation(value = "Finds restaurant by Id")
+    @ApiOperation(value = "Find restaurant by Id")
     @ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Restaurant.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
@@ -198,7 +198,7 @@ public class RestaurantController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantByName")
-    @ApiOperation(value = "Finds restaurant by Name")
+    @ApiOperation(value = "Find restaurant by Name")
     @ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Restaurant.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
@@ -217,7 +217,7 @@ public class RestaurantController {
      * @return List<Restaurant>
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantByNameOrDescription")
-    @ApiOperation(value = "Finds restaurant by Name or Description", responseContainer = "List")
+    @ApiOperation(value = "Find restaurant by Name or Description", responseContainer = "List")
     @ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Restaurant.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
@@ -238,7 +238,7 @@ public class RestaurantController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantByLocation")
-    @ApiOperation(value = "Search Restaurant within a specified area")
+    @ApiOperation(value = "Find Restaurant within a specified area")
     @ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Restaurant.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
@@ -263,7 +263,7 @@ public class RestaurantController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantsNearbyWithInRadius")
-    @ApiOperation(value = "Search Restaurants nearby within radius to define search area", responseContainer = "List")
+    @ApiOperation(value = "Finds Restaurants nearby within radius to define search area", responseContainer = "List")
     @ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Restaurant.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
@@ -288,7 +288,7 @@ public class RestaurantController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantsNearbyWithInRadiusAndOpenNow")
-    @ApiOperation(value = "Search Restaurants nearby within radius and  open now", responseContainer = "List")
+    @ApiOperation(value = "Finds Restaurants nearby within radius and  open now", responseContainer = "List")
     @ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Restaurant.class),
             @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
