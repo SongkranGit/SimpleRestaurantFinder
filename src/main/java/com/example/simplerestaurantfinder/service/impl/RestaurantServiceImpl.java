@@ -28,34 +28,35 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void updateRestaurant(Restaurant restaurant) {
-        restaurantRepository.save(restaurant);
+    public void updateRestaurant(Restaurant restaurant) throws Exception {
+        restaurantRepository.update(restaurant);
     }
 
     @Override
-    public void deleteRestaurant(long id) {
-        restaurantRepository.delete(id);
+    public void deleteRestaurant(long id) throws Exception {
+        Restaurant restaurant = restaurantRepository.findById(id);
+        restaurantRepository.delete(restaurant);
     }
 
 
     @Override
     public Restaurant getRestaurantById(long id) {
-        return restaurantRepository.findOne(id);
+        return restaurantRepository.findById(id);
     }
 
     @Override
     public Restaurant getRestaurantByName(String name) {
-        return restaurantRepository.findByName(name);
+        return restaurantRepository.getRestaurantByName(name);
     }
 
     @Override
     public Restaurant getRestaurantByLocation(double latitude, double longitude) {
-        return restaurantRepository.findByLatitudeAndLongitude(latitude, longitude);
+        return null;
     }
 
     @Override
     public List<Restaurant> getRestaurantByNameOrDescription(String name, String description) {
-        return restaurantRepository.findByNameOrDescription(name, description);
+        return null;
     }
 
     @Override

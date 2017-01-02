@@ -34,7 +34,7 @@ public class Restaurant  implements Serializable {
     @Column(name = "Longitude" , nullable = false)
     private Double longitude;
 
-    @Column(columnDefinition = "geometry")
+    @Column(name = "Location" , columnDefinition = "geometry")
     @JsonIgnore
     private Point location;
 
