@@ -7,12 +7,14 @@ import com.example.simplerestaurantfinder.service.OpeningHourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by BERM-PC on 25/12/2559.
  */
 @Service
+@Transactional
 public class OpeningHourServiceImpl implements OpeningHourService {
 
 

@@ -4,6 +4,7 @@ package com.example.simplerestaurantfinder.service;
 import com.example.simplerestaurantfinder.model.Restaurant;
 import org.joda.time.DateTime;
 
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -23,14 +24,13 @@ public interface RestaurantService {
 
     Restaurant getRestaurantByLocation(double latitude, double longitude);
 
-    List<Restaurant> getRestaurantByNameOrDescription(String name, String description);
-
     List<Restaurant> getRestaurantsWithInRadius(double latitude, double longitude, double radius);
 
     List<Restaurant> getRestaurantsWithInRadiusAndOpenNow(double latitude, double longitude, double radius, DateTime currentDateTime);
 
     List<Restaurant> getAllRestaurant();
 
+    List<Restaurant> getRestaurantsOpenNow(Time currentTime);
 
 
 }

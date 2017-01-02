@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -51,13 +52,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant getRestaurantByLocation(double latitude, double longitude) {
-        return null;
+        return restaurantRepository.getRestaurantByLocation(latitude , longitude);
     }
 
-    @Override
-    public List<Restaurant> getRestaurantByNameOrDescription(String name, String description) {
-        return null;
-    }
 
     @Override
     public List<Restaurant> getRestaurantsWithInRadius(double latitude, double longitude, double radius) {
@@ -75,6 +72,10 @@ public class RestaurantServiceImpl implements RestaurantService {
         return (List<Restaurant>) restaurantRepository.findAll();
     }
 
+    @Override
+    public List<Restaurant> getRestaurantsOpenNow(Time currentTime) {
+        return restaurantRepository.getOpenNowRestaurants(currentTime);
+    }
 
 
 }

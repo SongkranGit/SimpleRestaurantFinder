@@ -4,8 +4,11 @@ package com.example.simplerestaurantfinder.api.controller;
 import com.example.simplerestaurantfinder.api.responses.ApiResponseBean;
 import com.example.simplerestaurantfinder.model.Restaurant;
 import com.example.simplerestaurantfinder.service.RestaurantService;
+import com.example.simplerestaurantfinder.utils.DateTimeUtil;
 import com.example.simplerestaurantfinder.utils.GeographyUtil;
 import com.vividsolutions.jts.geom.Point;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import org.joda.time.DateTime;
@@ -13,6 +16,7 @@ import org.jsondoc.core.annotation.ApiMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Time;
 import java.util.List;
 
 
@@ -216,26 +221,6 @@ public class RestaurantController {
     }
 
 
-     /**
-     *
-     * Description :: GetRestaurantsByNameOrDescription
-     *
-     * @param name              restaurant name
-     * @param description       description of the restaurant
-     * @return List<Restaurant>
-     */
-    @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantByNameOrDescription")
-    @ApiOperation(value = "Find restaurant by Name or Description", responseContainer = "List")
-    @ApiResponses(value = {
-            @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Restaurant.class),
-            @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
-    public ResponseEntity<List<Restaurant>> getRestaurantByNameOrDescription(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "description", required = false) String description) {
-        List<Restaurant> restaurants = restaurantService.getRestaurantByNameOrDescription(name, description);
-        return new ResponseEntity(restaurants, HttpStatus.OK);
-    }
-
 
 
     /**
@@ -281,6 +266,29 @@ public class RestaurantController {
             @RequestParam(value = "radius", required = true) double radius
     ) {
         List<Restaurant> restaurants = restaurantService.getRestaurantsWithInRadius(latitude, longitude, radius);
+        return new ResponseEntity(restaurants, HttpStatus.OK);
+    }
+
+
+    /**
+     *
+     * Description :: Search Restaurants open now
+     *
+     * @param currentTime   datetime now
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantsOpenNow")
+    @ApiOperation(value = "Finds Restaurants nearby within radius and  open now", responseContainer = "List")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "currentTime", value = "Time(HH:mm)", required = true, dataType = "date-time", paramType = "query", defaultValue="09:30"),
+    })
+    @ApiResponses(value = {
+            @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Restaurant.class),
+            @io.swagger.annotations.ApiResponse(code = 500, message = "Server error")})
+    public ResponseEntity<List<Restaurant>> getRestaurantOpenNow(
+            @RequestParam(value = "currentTime", required = true) @DateTimeFormat(pattern="HH:mm") DateTime currentTime
+    ) {
+        List<Restaurant> restaurants = restaurantService.getRestaurantsOpenNow(DateTimeUtil.convertDateTimeToSqlTime(currentTime));
         return new ResponseEntity(restaurants, HttpStatus.OK);
     }
 
