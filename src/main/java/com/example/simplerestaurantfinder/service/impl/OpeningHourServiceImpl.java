@@ -7,12 +7,14 @@ import com.example.simplerestaurantfinder.service.OpeningHourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by BERM-PC on 25/12/2559.
  */
 @Service
+@Transactional
 public class OpeningHourServiceImpl implements OpeningHourService {
 
 
@@ -26,17 +28,18 @@ public class OpeningHourServiceImpl implements OpeningHourService {
 
     @Override
     public void updateOpeningHour(OpeningHour openingHour) throws Exception {
-        openingHourRepository.save(openingHour);
+        openingHourRepository.update(openingHour);
     }
 
     @Override
     public void deleteOpeningHour(long openingHourId) throws Exception {
-        openingHourRepository.delete(openingHourId);
+        OpeningHour openingHour = openingHourRepository.findById(openingHourId);
+        openingHourRepository.delete(openingHour);
     }
 
     @Override
     public OpeningHour getById(long openingHourId) {
-        return openingHourRepository.findOne(openingHourId);
+        return openingHourRepository.findById(openingHourId);
     }
 
     @Override

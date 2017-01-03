@@ -34,7 +34,7 @@ public class Restaurant  implements Serializable {
     @Column(name = "Longitude" , nullable = false)
     private Double longitude;
 
-    @Column(columnDefinition = "geometry")
+    @Column(name = "Location" , columnDefinition = "geometry")
     @JsonIgnore
     private Point location;
 
@@ -123,6 +123,16 @@ public class Restaurant  implements Serializable {
 
     public void setOpeningDays(Set<OpeningDay> openingDays) {
         this.openingDays = openingDays;
+    }
+
+    public double distance(double toLatitude, double toLongitude) {
+        double cx = Math.toRadians(latitude);
+        double cy = Math.toRadians(longitude);
+        double px = Math.toRadians(toLatitude);
+        double py = Math.toRadians(toLongitude);
+        double gamma = Math.acos(Math.sin(cx) * Math.sin(px) +
+                Math.cos(cx) * Math.cos(px) * Math.cos(py - cy));
+        return gamma * 6370.0;
     }
 
 }

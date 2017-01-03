@@ -93,16 +93,16 @@ public class OpeningHourController {
     @ApiOperation(value = "Update an existing OpeningHour")
     public ApiResponseBean updateOpeningHour(
             @RequestParam(name = "openingHourId", required = true) long openingHourId,
-            @RequestParam(name = "startTime", required = false) Time startTime,
-            @RequestParam(name = "endTime", required = false) Time endTime
+            @RequestParam(name = "startTime", required = false) @DateTimeFormat(pattern="HH:mm") DateTime startTime,
+            @RequestParam(name = "endTime", required = false) @DateTimeFormat(pattern="HH:mm") DateTime endTime
     ) {
         ApiResponseBean response = new ApiResponseBean();
         try {
             OpeningHour openingHour = openingHourService.getById(openingHourId);
             if(openingHour != null){
                 openingHour.setUpdatedDate(DateTime.now().toDate());
-                if (startTime != null) openingHour.setStartTime(startTime);
-                if (endTime != null) openingHour.setEndTime(endTime);
+                if (startTime != null) openingHour.setStartTime(DateTimeUtil.convertDateTimeToSqlTime(startTime));
+                if (endTime != null) openingHour.setEndTime(DateTimeUtil.convertDateTimeToSqlTime(endTime));
 
                 openingHourService.updateOpeningHour(openingHour);
                 response.setStatus("success");

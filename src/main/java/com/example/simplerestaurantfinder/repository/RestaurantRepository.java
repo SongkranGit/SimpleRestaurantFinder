@@ -1,34 +1,26 @@
 package com.example.simplerestaurantfinder.repository;
 
-
 import com.example.simplerestaurantfinder.model.Restaurant;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.joda.time.DateTime;
 
+import java.sql.Time;
 import java.util.List;
 
 /**
- * Created by BERM-PC on 22/12/2559.
+ * Created by BERM-PC on 1/1/2560.
  */
 
-@Repository
-public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
 
-    Restaurant findByName(String name);
+public interface RestaurantRepository extends GenericCRUDRepository<Restaurant , Long> {
 
-    Restaurant findByLatitudeAndLongitude(double latitude, double longitude);
+    Restaurant getRestaurantByName(String name);
 
-    List<Restaurant> findByNameOrDescription(String name, String description);
+    Restaurant getRestaurantByLocation(double latitude, double longitude );
 
-   // @Query("select l from Restaurant l where within(l.shape, ?) = true")
-   // List<Restaurant> findByLocationNear(Point location, Distance distance);
+    List<Restaurant> getOpenNowRestaurants(Time currentTime);
 
-//    @Query("select c from Car c where dwithin(c.location, :geom, :dist) = true")
-//    List<Restaurant> findByLocationWithin(Point location, Distance distance);
+    List<Restaurant> getNearbyRestaurantWithinRadius(double latitude, double longitude, double radius);
 
-   // public List<Restaurant> findByLocationNear(Point location, Distance distance);
+    List<Restaurant> getNearbyRestaurantWithinRadiusAndOpenNow(double latitude, double longitude, double radius , Time currentTime);
 
-//
-//    @Query("select * from restaurant where st_contains(geom, point(-122.409153, 37.77765));")
-//     List<Restaurant> find(@Param("lastName") String lastName);
 }

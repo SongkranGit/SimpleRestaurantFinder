@@ -28,17 +28,18 @@ public class OpeningDayServiceImpl implements OpeningDayService {
 
     @Override
     public void updateOpeningDay(OpeningDay openingDay) throws Exception {
-        openingDayRepository.save(openingDay);
+        openingDayRepository.update(openingDay);
     }
 
     @Override
     public void deleteOpeningDay(long OpeningDayId) throws Exception {
-        openingDayRepository.delete(OpeningDayId);
+        OpeningDay openingDay = openingDayRepository.findById(OpeningDayId);
+        openingDayRepository.delete(openingDay);
     }
 
     @Override
     public OpeningDay getById(long OpeningDayId) {
-        return openingDayRepository.findOne(OpeningDayId);
+        return openingDayRepository.findById(OpeningDayId);
     }
 
     @Override

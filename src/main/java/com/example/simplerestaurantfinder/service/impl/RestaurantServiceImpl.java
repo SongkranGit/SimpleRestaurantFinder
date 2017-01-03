@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -28,45 +29,39 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void updateRestaurant(Restaurant restaurant) {
-        restaurantRepository.save(restaurant);
+    public void updateRestaurant(Restaurant restaurant) throws Exception {
+        restaurantRepository.update(restaurant);
     }
 
     @Override
-    public void deleteRestaurant(long id) {
-        restaurantRepository.delete(id);
+    public void deleteRestaurant(long id) throws Exception {
+        Restaurant restaurant = restaurantRepository.findById(id);
+        restaurantRepository.delete(restaurant);
     }
-
 
     @Override
     public Restaurant getRestaurantById(long id) {
-        return restaurantRepository.findOne(id);
+        return restaurantRepository.findById(id);
     }
 
     @Override
     public Restaurant getRestaurantByName(String name) {
-        return restaurantRepository.findByName(name);
+        return restaurantRepository.getRestaurantByName(name);
     }
 
     @Override
     public Restaurant getRestaurantByLocation(double latitude, double longitude) {
-        return restaurantRepository.findByLatitudeAndLongitude(latitude, longitude);
+        return restaurantRepository.getRestaurantByLocation(latitude , longitude);
     }
 
     @Override
-    public List<Restaurant> getRestaurantByNameOrDescription(String name, String description) {
-        return restaurantRepository.findByNameOrDescription(name, description);
+    public List<Restaurant> getNearbyRestaurantsWithInRadius(double latitude, double longitude, double radius) {
+        return restaurantRepository.getNearbyRestaurantWithinRadius(latitude , longitude , radius);
     }
 
     @Override
-    public List<Restaurant> getRestaurantsWithInRadius(double latitude, double longitude, double radius) {
-        return null;
-       // return restaurantRepository.findByLocationNear(new Point(latitude , longitude), new Distance(radius));
-    }
-
-    @Override
-    public List<Restaurant> getRestaurantsWithInRadiusAndOpenNow(double latitude, double longitude, double radius, DateTime currentDateTime) {
-        return null;
+    public List<Restaurant> getNearbyRestaurantsWithInRadiusAndOpenNow(double latitude, double longitude, double radius, Time currentTime) {
+        return restaurantRepository.getNearbyRestaurantWithinRadiusAndOpenNow(latitude , longitude , radius , currentTime);
     }
 
     @Override
@@ -74,6 +69,10 @@ public class RestaurantServiceImpl implements RestaurantService {
         return (List<Restaurant>) restaurantRepository.findAll();
     }
 
+    @Override
+    public List<Restaurant> getRestaurantsOpenNow(Time currentTime) {
+        return restaurantRepository.getOpenNowRestaurants(currentTime);
+    }
 
 
 }
