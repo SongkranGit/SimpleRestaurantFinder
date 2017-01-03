@@ -5,7 +5,7 @@ import com.example.simplerestaurantfinder.api.responses.ApiResponseBean;
 import com.example.simplerestaurantfinder.model.Restaurant;
 import com.example.simplerestaurantfinder.service.RestaurantService;
 import com.example.simplerestaurantfinder.utils.DateTimeUtil;
-import com.example.simplerestaurantfinder.utils.GeographyUtil;
+import com.example.simplerestaurantfinder.utils.GeometryUtil;
 import com.vividsolutions.jts.geom.Point;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -76,7 +76,7 @@ public class RestaurantController {
             restaurant.setCreatedDate(DateTime.now().toDate());
 
             if (latitude != null && longitude != null) {
-                Point point = GeographyUtil.createPoint(latitude, longitude);
+                Point point = GeometryUtil.createPoint(latitude, longitude);
                 restaurant.setLocation(point);
                 restaurantService.saveRestaurant(restaurant);
                 response.setStatus("success");
