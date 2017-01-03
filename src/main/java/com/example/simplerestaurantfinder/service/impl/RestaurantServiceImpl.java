@@ -39,7 +39,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.delete(restaurant);
     }
 
-
     @Override
     public Restaurant getRestaurantById(long id) {
         return restaurantRepository.findById(id);
@@ -55,16 +54,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.getRestaurantByLocation(latitude , longitude);
     }
 
-
     @Override
-    public List<Restaurant> getRestaurantsWithInRadius(double latitude, double longitude, double radius) {
-        return null;
-       // return restaurantRepository.findByLocationNear(new Point(latitude , longitude), new Distance(radius));
+    public List<Restaurant> getNearbyRestaurantsWithInRadius(double latitude, double longitude, double radius) {
+        return restaurantRepository.getNearbyRestaurantWithinRadius(latitude , longitude , radius);
     }
 
     @Override
-    public List<Restaurant> getRestaurantsWithInRadiusAndOpenNow(double latitude, double longitude, double radius, DateTime currentDateTime) {
-        return null;
+    public List<Restaurant> getNearbyRestaurantsWithInRadiusAndOpenNow(double latitude, double longitude, double radius, Time currentTime) {
+        return restaurantRepository.getNearbyRestaurantWithinRadiusAndOpenNow(latitude , longitude , radius , currentTime);
     }
 
     @Override

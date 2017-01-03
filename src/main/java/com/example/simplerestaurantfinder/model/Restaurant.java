@@ -125,4 +125,14 @@ public class Restaurant  implements Serializable {
         this.openingDays = openingDays;
     }
 
+    public double distance(double toLatitude, double toLongitude) {
+        double cx = Math.toRadians(latitude);
+        double cy = Math.toRadians(longitude);
+        double px = Math.toRadians(toLatitude);
+        double py = Math.toRadians(toLongitude);
+        double gamma = Math.acos(Math.sin(cx) * Math.sin(px) +
+                Math.cos(cx) * Math.cos(px) * Math.cos(py - cy));
+        return gamma * 6370.0;
+    }
+
 }

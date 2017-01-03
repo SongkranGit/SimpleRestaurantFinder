@@ -19,4 +19,8 @@ public interface RestaurantRepository extends GenericCRUDRepository<Restaurant ,
 
     List<Restaurant> getOpenNowRestaurants(Time currentTime);
 
+    List<Restaurant> getNearbyRestaurantWithinRadius(double latitude, double longitude, double radius);
+
+    List<Restaurant> getNearbyRestaurantWithinRadiusAndOpenNow(double latitude, double longitude, double radius , Time currentTime);
+
 }

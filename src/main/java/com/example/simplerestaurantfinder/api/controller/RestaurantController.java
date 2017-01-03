@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Time;
 import java.util.List;
 
 
@@ -265,7 +264,7 @@ public class RestaurantController {
             @RequestParam(value = "longitude", required = true) double longitude,
             @RequestParam(value = "radius", required = true) double radius
     ) {
-        List<Restaurant> restaurants = restaurantService.getRestaurantsWithInRadius(latitude, longitude, radius);
+        List<Restaurant> restaurants = restaurantService.getNearbyRestaurantsWithInRadius(latitude, longitude, radius);
         return new ResponseEntity(restaurants, HttpStatus.OK);
     }
 
@@ -300,7 +299,7 @@ public class RestaurantController {
      * @param latitude          location of restaurant
      * @param longitude         location of restaurant
      * @param radius            radius of distance (Km)
-     * @param currentDateTime   datetime now
+     * @param currentTime   datetime now
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getRestaurantsNearbyWithInRadiusAndOpenNow")
@@ -312,9 +311,9 @@ public class RestaurantController {
             @RequestParam(value = "latitude", required = true) double latitude,
             @RequestParam(value = "longitude", required = true) double longitude,
             @RequestParam(value = "radius", required = true) double radius,
-            @RequestParam(value = "currentDateTime", required = true) DateTime currentDateTime
+            @RequestParam(value = "currentDateTime", required = true) @DateTimeFormat(pattern="HH:mm") DateTime currentTime
     ) {
-        List<Restaurant> restaurants = restaurantService.getRestaurantsWithInRadiusAndOpenNow(latitude, longitude, radius, currentDateTime);
+        List<Restaurant> restaurants = restaurantService.getNearbyRestaurantsWithInRadiusAndOpenNow(latitude, longitude, radius, DateTimeUtil.convertDateTimeToSqlTime(currentTime));
         return new ResponseEntity(restaurants, HttpStatus.OK);
     }
 

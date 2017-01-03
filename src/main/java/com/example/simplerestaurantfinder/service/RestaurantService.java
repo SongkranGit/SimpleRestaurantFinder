@@ -24,9 +24,9 @@ public interface RestaurantService {
 
     Restaurant getRestaurantByLocation(double latitude, double longitude);
 
-    List<Restaurant> getRestaurantsWithInRadius(double latitude, double longitude, double radius);
+    List<Restaurant> getNearbyRestaurantsWithInRadius(double latitude, double longitude, double radius);
 
-    List<Restaurant> getRestaurantsWithInRadiusAndOpenNow(double latitude, double longitude, double radius, DateTime currentDateTime);
+    List<Restaurant> getNearbyRestaurantsWithInRadiusAndOpenNow(double latitude, double longitude, double radius, Time currentTime);
 
     List<Restaurant> getAllRestaurant();
 
