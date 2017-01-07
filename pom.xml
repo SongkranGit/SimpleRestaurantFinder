@@ -24,6 +24,7 @@
 		<java.version>1.8</java.version>
 		<hibernate.version>5.2.4.Final</hibernate.version>
 		<mysql.connector.version>5.1.40</mysql.connector.version>
+		<appengine.maven.plugin>1.0.0</appengine.maven.plugin>
 	</properties>
 
 	<dependencies>
@@ -65,7 +66,18 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<!--<version>${mysql.connector.version}</version>-->
+			<version>${mysql.connector.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>mysql-socket-factory</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-1.0-sdk</artifactId>
 		</dependency>
 
 		<!--Hibernate-->
@@ -141,8 +153,14 @@
 
 			<plugin>
 				<groupId>com.google.appengine</groupId>
-				<artifactId>gcloud-maven-plugin</artifactId>
-				<version>2.0.9.106.v20160420</version>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>1.9.48</version>
+			</plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>${appengine.maven.plugin}</version>
 			</plugin>
 		</plugins>
 	</build>
