@@ -23,8 +23,15 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<hibernate.version>5.2.4.Final</hibernate.version>
-		<mysql.connector.version>5.1.40</mysql.connector.version>
+		<mysql.connector.version>6.0.5</mysql.connector.version>
 		<appengine.maven.plugin>1.0.0</appengine.maven.plugin>
+
+
+		<INSTANCE_CONNECTION_NAME>simplerestaurantfinder-154010:asia-east1:modernsofttech</INSTANCE_CONNECTION_NAME>
+		<user>root</user>
+		<password>liver167</password>
+		<database>SimpleRestaurantFinder</database>
+
 	</properties>
 
 	<dependencies>
@@ -63,11 +70,16 @@
 		</dependency>
 
 		<!--MySQL-->
-		<!--<dependency>-->
-			<!--<groupId>mysql</groupId>-->
-			<!--<artifactId>mysql-connector-java</artifactId>-->
-			<!--<version>${mysql.connector.version}</version>-->
-		<!--</dependency>-->
+		<dependency>   <!-- http://dev.mysql.com/doc/connector-j/en/ -->
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>6.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>mysql-socket-factory-connector-j-6</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.google.cloud.sql</groupId>
@@ -161,6 +173,12 @@
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>${appengine.maven.plugin}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.8.v20160314</version>
 			</plugin>
 		</plugins>
 	</build>
